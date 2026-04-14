@@ -16,11 +16,12 @@ def run_pipeline(iterations=500, generations=20):
     subprocess.run([sys.executable, "rel_thermo_search/optimization_mo_ga.py"], check=True)
 
     # 4. Generate Visualizations
-    # 4. Generate Visualizations
     print("\nStep 3: Generating Visualizations...")
     subprocess.run([sys.executable, "rel_thermo_search/visualize_discovery.py"], check=True)
     subprocess.run([sys.executable, "rel_thermo_search/sensitivity_analysis.py"], check=True)
     subprocess.run([sys.executable, "rel_thermo_search/plot_top_candidates.py"], check=True)
+    subprocess.run([sys.executable, "rel_thermo_search/plot_phase_diagram.py"], check=True)
+    subprocess.run([sys.executable, "rel_thermo_search/validate_real_materials.py"], check=True)
 
     # 5. Generate Report
     print("\nStep 4: Compiling Final Report...")

@@ -105,8 +105,9 @@ class RelMaterial:
         dissipation = DISSIPATION_FACTOR * (self.energy_density**2 + v_norm**2) + alpha_corr + schwinger_dissipation
 
         # Figure of Merit R-ZT
-        # Integrating flux and BTE-derived transport
-        efficiency = (pf_rel * flux * stability_bonus * self.meb_coupling) / (coeffs['kappa_rel'] + abs(trace) + dissipation)
+        # Integrating flux, BTE-derived transport, and Lifetime
+        lifetime = self.calculate_lifetime()
+        efficiency = (pf_rel * flux * stability_bonus * self.meb_coupling * lifetime) / (coeffs['kappa_rel'] + abs(trace) + dissipation)
         return efficiency
 
 if __name__ == "__main__":

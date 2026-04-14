@@ -20,13 +20,19 @@ The model incorporates **Relativistic Boltzmann Transport (R-BTE)**:
 - **Thermal Conductivity ($\kappa_{rel}$):** Includes relativistic Wiedemann-Franz contributions.
 
 The refined figure of merit is:
-$R-ZT = \frac{(S_{rel})^2 \sigma_{rel} \cdot \text{Flux} \cdot \text{Stability}}{\kappa_{rel} + \text{Dissipation}}$
+$R-ZT = \frac{(S_{rel})^2 \sigma_{rel} \cdot \text{Flux} \cdot \text{Stability} \cdot \text{Lifetime}}{\kappa_{rel} + \text{Dissipation}}$
 
 ### 3.1 Non-Linear QED Corrections
 - **Euler-Heisenberg:** At high field intensities, the vacuum itself becomes non-linear, contributing an effective $\alpha(F^2)$ term to the dissipation.
 - **Schwinger Limit:** If the internal electric field $E$ exceeds a critical threshold ($\sim 500$ units in our normalized model), pair production leads to exponential dissipation, destroying solitonic stability.
+- **Vertex Correction:** In the R-BTE solver, the effective charge coupling is modified by the local field intensity: $g_{eff} = g(1 + 0.1 \sqrt{|\Omega|})$.
 
-## 4. Stability Condition
+## 4. Solitonic Lifetime ($\tau_{sol}$)
+Matter fields are not infinitely stable. We model the lifetime as:
+$\tau_{sol} = \frac{\text{Stability}}{1 + 0.01 \cdot T^{00}}$
+This captures the thermal/density-driven decay of complex field configurations.
+
+## 5. Stability Condition
 A valid material must satisfy:
 $\partial_\mu T^{\mu\nu} = 0$ (Conservation of Energy-Momentum)
 $\Box A^\mu = \mu_0 J^\mu$ (Maxwell Source Equation)

@@ -3,7 +3,7 @@ import random
 from material_engine import RelMaterial
 from material_db import load_db, save_to_db
 from chemical_translator import ChemicalTranslator
-from config import POP_SIZE, MUTATION_RATE, DEFAULT_GENERATIONS
+from config import POP_SIZE, MUTATION_RATE, DEFAULT_GENERATIONS, ENERGY_MIN, ENERGY_MAX, VORTICITY_MIN, VORTICITY_MAX, COUPLING_MIN, COUPLING_MAX
 
 class GeneticOptimizer:
     def __init__(self, pop_size=POP_SIZE, mutation_rate=MUTATION_RATE, generations=DEFAULT_GENERATIONS):
@@ -28,9 +28,9 @@ class GeneticOptimizer:
         # Fill the rest with random materials
         while len(population) < self.pop_size:
             population.append({
-                'energy_density': np.random.uniform(0.1, 100.0),
-                'vorticity': np.random.uniform(-50.0, 50.0, size=3),
-                'coupling': np.random.uniform(0.01, 2.0)
+                'energy_density': np.random.uniform(ENERGY_MIN, ENERGY_MAX),
+                'vorticity': np.random.uniform(VORTICITY_MIN, VORTICITY_MAX, size=3),
+                'coupling': np.random.uniform(COUPLING_MIN, COUPLING_MAX)
             })
         return population
 
