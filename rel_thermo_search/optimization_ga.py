@@ -61,12 +61,18 @@ class GeneticOptimizer:
             best_eff, best_ind = scored_pop[0]
             print(f"Generation {gen+1}: Best R-ZT = {best_eff:.4f}")
 
-            # Selection (Top 50%)
-            next_gen = [ind for score, ind in scored_pop[:self.pop_size // 2]]
+            # Selection with Elitism (Keep top 2)
+            next_gen = [ind for score, ind in scored_pop[:2]]
+
+            # Selection (Top 50%) for the rest of parents
+            parents = [ind for score, ind in scored_pop[:self.pop_size // 2]]
+
+            # Adaptive Mutation Rate
+            current_mutation_rate = self.mutation_rate * (1.0 - gen / self.generations)
 
             # Crossover and Mutation to fill the rest
             while len(next_gen) < self.pop_size:
-                p1 = random.choice(next_gen)
+                p1 = random.choice(parents)
                 p2 = random.choice(next_gen)
                 child = self._crossover(p1, p2)
                 child = self._mutate(child)

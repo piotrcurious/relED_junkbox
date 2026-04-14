@@ -29,5 +29,17 @@ KNOWN_MATERIALS = {
         "energy_density": 8.96,
         "vorticity": [0, 0, 0.1], # Metal, no stable solitons
         "coupling": 0.01 # Low Seebeck coupling in this framework
+    },
+    "Cobalt Antimonide (CoSb3)": {
+        "real_zt": 0.8,
+        "energy_density": 7.6,
+        "vorticity": [0, 0, 5.0],
+        "coupling": 1.1
+    },
+    "Zinc Antimonide (Zn4Sb3)": {
+        "real_zt": 1.3,
+        "energy_density": 6.3,
+        "vorticity": [0, 0, 12.0],
+        "coupling": 1.8
     }
 }
