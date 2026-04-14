@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import os
 from material_engine import RelMaterial
 from material_mapping import KNOWN_MATERIALS
 
@@ -25,6 +27,29 @@ def validate():
 
     print("-" * 75)
     print(f"Overall Pearson Correlation: {correlation:.4f}")
+
+    # Generate Validation Plot
+    plt.figure(figsize=(10, 6))
+    plt.scatter(real_vals, rel_vals, color='blue', s=100, alpha=0.7)
+
+    # Annotate points
+    names = list(KNOWN_MATERIALS.keys())
+    for i, name in enumerate(names):
+        plt.annotate(name.split('(')[0].strip(), (real_vals[i], rel_vals[i]),
+                     xytext=(5, 5), textcoords='offset points', fontsize=9)
+
+    # Best fit line
+    m, b = np.polyfit(real_vals, rel_vals, 1)
+    plt.plot(np.array(real_vals), m*np.array(real_vals) + b, color='red', linestyle='--', alpha=0.5)
+
+    plt.title(f'Model Validation: Empirical ZT vs. Relativistic R-ZT (Corr: {correlation:.4f})')
+    plt.xlabel('Empirical Figure of Merit (ZT)')
+    plt.ylabel('Relativistic Figure of Merit (R-ZT)')
+    plt.grid(True, linestyle=':', alpha=0.6)
+
+    output_path = os.path.join(os.path.dirname(__file__), 'validation_plot.png')
+    plt.savefig(output_path)
+    print(f"Validation plot saved to {output_path}")
 
 if __name__ == "__main__":
     validate()

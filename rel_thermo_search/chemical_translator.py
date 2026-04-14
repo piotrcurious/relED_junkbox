@@ -33,7 +33,6 @@ class ChemicalTranslator:
     def _calculate_distance(self, p1, p2):
         """
         Normalized Euclidean distance in Relativistic Parameter Space.
-        p = [energy_density, vorticity_magnitude, coupling]
         """
         norms = np.array([100.0, 50.0, 2.0])
         return np.linalg.norm((np.array(p1) - np.array(p2)) / norms)

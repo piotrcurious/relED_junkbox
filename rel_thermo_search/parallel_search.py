@@ -5,7 +5,7 @@ import time
 from material_engine import RelMaterial
 from material_db import save_to_db
 from chemical_translator import ChemicalTranslator
-from config import DEFAULT_SAMPLES
+from config import DEFAULT_SAMPLES, ENERGY_MIN, ENERGY_MAX, VORTICITY_MIN, VORTICITY_MAX, COUPLING_MIN, COUPLING_MAX
 
 def evaluate_material_batch(args):
     """
@@ -25,9 +25,9 @@ def evaluate_material_batch(args):
     local_best_params = None
 
     for _ in range(batch_size):
-        energy_density = np.random.uniform(0.1, 100.0)
-        vorticity = np.random.uniform(-50.0, 50.0, size=3)
-        coupling = np.random.uniform(0.01, 2.0)
+        energy_density = np.random.uniform(ENERGY_MIN, ENERGY_MAX)
+        vorticity = np.random.uniform(VORTICITY_MIN, VORTICITY_MAX, size=3)
+        coupling = np.random.uniform(COUPLING_MIN, COUPLING_MAX)
 
         mat = RelMaterial(energy_density, vorticity, coupling)
         eff = mat.calculate_efficiency()

@@ -1,93 +1,14 @@
 [
     {
-        "energy_density": 10.416125094084066,
+        "energy_density": 16.35124775944523,
         "vorticity": [
-            -38.50278460393608,
-            36.566847656017906,
-            -35.94117156544838
+            -9.482524131700604,
+            54.09979567392493,
+            -89.23720588457076
         ],
-        "coupling": 3.690265200114445,
-        "efficiency": 8761.115020034842,
+        "coupling": 3.68989995742412,
+        "efficiency": 4877.032675057604,
         "method": "genetic_algorithm",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]",
-        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
-        "nearest_anchor": "Lead Telluride (PbTe)",
-        "confidence": 0.0,
-        "chemical_stability": 0.8
-    },
-    {
-        "energy_density": 10.416125094084066,
-        "vorticity": [
-            -38.50278460393608,
-            36.566847656017906,
-            -35.94117156544838
-        ],
-        "coupling": 3.690265200114445,
-        "efficiency": 8761.115020034842,
-        "method": "multi_objective_ga",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]",
-        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
-        "nearest_anchor": "Lead Telluride (PbTe)",
-        "confidence": 0.0,
-        "chemical_stability": 0.8
-    },
-    {
-        "energy_density": 10.416125094084066,
-        "vorticity": [
-            -38.50278460393608,
-            36.566847656017906,
-            -35.94117156544838
-        ],
-        "coupling": 3.690265200114445,
-        "efficiency": 8761.115020034842,
-        "method": "genetic_algorithm",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]",
-        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
-        "nearest_anchor": "Lead Telluride (PbTe)",
-        "confidence": 0.0,
-        "chemical_stability": 0.8
-    },
-    {
-        "energy_density": 10.416125094084066,
-        "vorticity": [
-            -38.50278460393608,
-            36.566847656017906,
-            -35.94117156544838
-        ],
-        "coupling": 3.690265200114445,
-        "efficiency": 8761.115020034842,
-        "method": "genetic_algorithm",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]",
-        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
-        "nearest_anchor": "Lead Telluride (PbTe)",
-        "confidence": 0.0,
-        "chemical_stability": 0.8
-    },
-    {
-        "energy_density": 10.416125094084066,
-        "vorticity": [
-            -38.50278460393608,
-            36.566847656017906,
-            -35.94117156544838
-        ],
-        "coupling": 3.690265200114445,
-        "efficiency": 8761.115020034842,
-        "method": "multi_objective_ga",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]",
-        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
-        "nearest_anchor": "Lead Telluride (PbTe)",
-        "confidence": 0.0,
-        "chemical_stability": 0.8
-    },
-    {
-        "energy_density": 20.548997151006066,
-        "vorticity": [
-            -44.711091084095436,
-            32.25110983543557,
-            -30.83178953634261
-        ],
-        "coupling": 1.9116341583540675,
-        "efficiency": 569.0066150955834,
         "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]",
         "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
         "nearest_anchor": "Zinc Antimonide (Zn4Sb3)",
@@ -95,18 +16,34 @@
         "chemical_stability": 0.8
     },
     {
-        "energy_density": 14.152643863702643,
+        "energy_density": 16.35124775944523,
         "vorticity": [
-            -3.8820364435713586,
-            34.77905983967129,
-            33.32609328324416
+            -9.482524131700604,
+            54.09979567392493,
+            -89.23720588457076
         ],
-        "coupling": 1.3192305714496848,
-        "efficiency": 58.20397591122433,
+        "coupling": 3.68989995742412,
+        "efficiency": 4877.032675057604,
+        "method": "multi_objective_ga",
         "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]",
-        "bond_type": "Semiconducting Covalent (Stable Soliton)",
+        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
         "nearest_anchor": "Zinc Antimonide (Zn4Sb3)",
-        "confidence": 0.23074954014847937,
+        "confidence": 0.0,
+        "chemical_stability": 0.8
+    },
+    {
+        "energy_density": 18.323614598577613,
+        "vorticity": [
+            47.62563915810975,
+            7.758613707628385,
+            -75.57636077591023
+        ],
+        "coupling": 2.5279971785641426,
+        "efficiency": 705.6738382212875,
+        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]",
+        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
+        "nearest_anchor": "Zinc Antimonide (Zn4Sb3)",
+        "confidence": 0.0,
         "chemical_stability": 0.8
     }
 ]
