@@ -32,6 +32,7 @@ This analysis shows how the Relativistic Figure of Merit (R-ZT) responds to chan
 - `material_engine.py`: Core physics engine and efficiency calculator.
 - `parallel_search.py`: HPC-optimized random search using multiprocessing.
 - `optimization_ga.py`: Genetic Algorithm for evolving optimal field configurations.
+- `optimization_mo_ga.py`: Multi-objective GA (Efficiency + Stability).
 - `material_db.py`: Persistence layer for discovered materials.
 - `validate_real_materials.py`: Correlation tool against empirical data (Bi2Te3, PbTe, etc.).
 - `chemical_translator.py`: Maps relativistic parameters to chemical nomenclature and bond types.
@@ -66,6 +67,21 @@ python3 visualize_discovery.py
 ### 4. Run Validation
 ```bash
 python3 validate_real_materials.py
+```
+
+### 5. Analyze a Specific Formula
+```bash
+python3 analyze_formula.py PbTe
+```
+
+### 6. Generate a Discovery Report
+```bash
+python3 generate_report.py
+```
+
+### 7. Compare Two Materials
+```bash
+python3 compare_materials.py Bi2Te3 PbTe
 ```
 
 ## Requirements
