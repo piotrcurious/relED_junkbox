@@ -36,9 +36,13 @@ class RelMaterial:
         # For matter-field, there might be a non-zero trace (mass), but we want low dissipation.
         trace = np.trace(np.matmul(T, ETA))
 
-        # Figure of Merit R-ZT = Coupling * Flux / (1 + abs(trace))
-        # High flux + low dissipation (trace) = high efficiency.
-        efficiency = (self.coupling_constant * flux) / (1.0 + abs(trace))
+        # Field Dissipation term (based on non-linearity/vorticity energy)
+        # In a real QED framework, high field gradients lead to pair production or dissipation.
+        dissipation = 0.01 * (self.energy_density**2 + np.sum(np.array(self.vorticity)**2))
+
+        # Figure of Merit R-ZT = (Coupling * Flux) / (1 + abs(trace) + dissipation)
+        # High flux + low dissipation = high efficiency.
+        efficiency = (self.coupling_constant * flux) / (1.0 + abs(trace) + dissipation)
         return efficiency
 
 if __name__ == "__main__":
