@@ -2,10 +2,11 @@ import numpy as np
 from rel_tensor_util import ETA, faraday_tensor, stress_energy_em
 
 class RelMaterial:
-    def __init__(self, energy_density, vorticity, coupling_constant):
+    def __init__(self, energy_density, vorticity, coupling_constant, meb_coupling=1.0):
         self.energy_density = energy_density
         self.vorticity = vorticity # Vector representing the internal EM vortex strength
         self.coupling_constant = coupling_constant
+        self.meb_coupling = meb_coupling # Mass-Energy-Bond coupling
 
     def simulate_fields(self):
         """
@@ -52,8 +53,8 @@ class RelMaterial:
         # Field Dissipation term (QED-scale)
         dissipation = 0.005 * (self.energy_density**2 + v_norm**2) + alpha_corr
 
-        # Figure of Merit R-ZT = (Coupling * Flux * Stability) / (1 + abs(trace) + dissipation)
-        efficiency = (self.coupling_constant * flux * stability_bonus) / (1.0 + abs(trace) + dissipation)
+        # Figure of Merit R-ZT = (Coupling * Flux * Stability * MEB) / (1 + abs(trace) + dissipation)
+        efficiency = (self.coupling_constant * flux * stability_bonus * self.meb_coupling) / (1.0 + abs(trace) + dissipation)
         return efficiency
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ import numpy as np
 import random
 from material_engine import RelMaterial
 from material_db import load_db, save_to_db
+from chemical_translator import ChemicalTranslator
 
 class GeneticOptimizer:
     def __init__(self, pop_size=50, mutation_rate=0.1, generations=20):
@@ -36,12 +37,12 @@ class GeneticOptimizer:
         mat = RelMaterial(individual['energy_density'], individual['vorticity'], individual['coupling'])
         return mat.calculate_efficiency()
 
-    def _mutate(self, individual):
-        if random.random() < self.mutation_rate:
+    def _mutate(self, individual, rate):
+        if random.random() < rate:
             individual['energy_density'] *= np.random.uniform(0.8, 1.2)
-        if random.random() < self.mutation_rate:
+        if random.random() < rate:
             individual['vorticity'] += np.random.uniform(-5.0, 5.0, size=3)
-        if random.random() < self.mutation_rate:
+        if random.random() < rate:
             individual['coupling'] *= np.random.uniform(0.8, 1.2)
         return individual
 
@@ -75,7 +76,7 @@ class GeneticOptimizer:
                 p1 = random.choice(parents)
                 p2 = random.choice(next_gen)
                 child = self._crossover(p1, p2)
-                child = self._mutate(child)
+                child = self._mutate(child, current_mutation_rate)
                 next_gen.append(child)
 
             self.population = next_gen
@@ -85,6 +86,13 @@ class GeneticOptimizer:
         final_scored.sort(key=lambda x: x[0], reverse=True)
         best_score, best_ind = final_scored[0]
 
+        translator = ChemicalTranslator()
+        chem_info = translator.translate(
+            best_ind['energy_density'],
+            best_ind['vorticity'],
+            best_ind['coupling']
+        )
+
         result = {
             'energy_density': float(best_ind['energy_density']),
             'vorticity': best_ind['vorticity'].tolist(),
@@ -92,6 +100,7 @@ class GeneticOptimizer:
             'efficiency': float(best_score),
             'method': 'genetic_algorithm'
         }
+        result.update(chem_info)
         save_to_db(result)
         return result
 

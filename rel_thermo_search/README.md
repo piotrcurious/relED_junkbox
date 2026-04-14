@@ -34,7 +34,17 @@ This analysis shows how the Relativistic Figure of Merit (R-ZT) responds to chan
 - `optimization_ga.py`: Genetic Algorithm for evolving optimal field configurations.
 - `material_db.py`: Persistence layer for discovered materials.
 - `validate_real_materials.py`: Correlation tool against empirical data (Bi2Te3, PbTe, etc.).
+- `chemical_translator.py`: Maps relativistic parameters to chemical nomenclature and bond types.
 - `visualize_discovery.py`: Visualization generator.
+
+## Chemical Mapping
+
+The discovery suite now maps relativistic "solitonic parameters" to potential chemical substances:
+- **Energy Density** $\rightarrow$ Atomic Mass / Material Density.
+- **Vorticity Magnitude** $\rightarrow$ Structural Complexity / Topological Index.
+- **Coupling** $\rightarrow$ Bond Type (Metallic, Covalent, or Ionic-Topological).
+
+Discovered materials include a `substance` field and a `confidence` score based on proximity to known thermoelectric anchors.
 
 ## How to Run
 

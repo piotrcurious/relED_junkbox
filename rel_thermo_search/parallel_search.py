@@ -4,6 +4,7 @@ import os
 import time
 from material_engine import RelMaterial
 from material_db import save_to_db
+from chemical_translator import ChemicalTranslator
 
 def evaluate_material_batch(args):
     """
@@ -66,9 +67,21 @@ def parallel_search(total_iterations=1000, num_workers=None):
     # Aggregate results from all workers
     global_best = max(results, key=lambda x: x['efficiency'])
 
+    # Enrich with chemical info
+    translator = ChemicalTranslator()
+    chem_info = translator.translate(
+        global_best['energy_density'],
+        global_best['vorticity'],
+        global_best['coupling']
+    )
+    global_best.update(chem_info)
+
     duration = time.time() - start_time
 
     print("\n--- OPTIMAL THERMOELECTRIC MATERIAL DISCOVERED (PARALLEL) ---")
+    print(f"Substance: {global_best.get('substance', 'Unknown')}")
+    print(f"Bond Type: {global_best.get('bond_type', 'Unknown')}")
+    print(f"Confidence: {global_best.get('confidence', 0):.2%}")
     print(f"Energy Density: {global_best['energy_density']:.4f}")
     print(f"Vorticity Vector: {global_best['vorticity']}")
     print(f"Relativistic Coupling: {global_best['coupling']:.4f}")

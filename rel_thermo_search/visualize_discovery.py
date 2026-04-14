@@ -19,9 +19,16 @@ def visualize():
     energies = [m['energy_density'] for m in db]
     vorticities = [np.linalg.norm(m['vorticity']) for m in db]
     efficiencies = [m['efficiency'] for m in db]
+    substances = [m.get('substance', 'N/A') for m in db]
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 8))
     scatter = plt.scatter(energies, vorticities, c=efficiencies, cmap='viridis', alpha=0.6)
+
+    # Annotate top materials
+    top_indices = np.argsort(efficiencies)[-3:]
+    for i in top_indices:
+        plt.annotate(substances[i], (energies[i], vorticities[i]),
+                     xytext=(5, 5), textcoords='offset points', fontsize=8, alpha=0.8)
     plt.colorbar(scatter, label='Efficiency (R-ZT)')
     plt.xlabel('Energy Density')
     plt.ylabel('Vorticity Magnitude')
