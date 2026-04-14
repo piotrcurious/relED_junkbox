@@ -41,7 +41,7 @@ def evaluate_material_batch(args):
 
     return local_best_params
 
-def parallel_search(total_iterations=10000, num_workers=None):
+def parallel_search(total_iterations=1000, num_workers=None):
     if num_workers is None:
         # Respect NUMA/HPC environments via env var or cpu_count
         num_workers = int(os.environ.get('OMP_NUM_THREADS', os.cpu_count()))
@@ -82,4 +82,8 @@ def parallel_search(total_iterations=10000, num_workers=None):
     return global_best
 
 if __name__ == "__main__":
-    parallel_search()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--total_iterations", type=int, default=1000)
+    args = parser.parse_args()
+    parallel_search(total_iterations=args.total_iterations)

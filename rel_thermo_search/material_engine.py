@@ -27,22 +27,33 @@ class RelMaterial:
         """
         E, B = self.simulate_fields()
         F = faraday_tensor(E, B)
+
+        # Euler-Heisenberg Correction (Vacuum Polarization)
+        # L_eff = L_Maxwell + alpha^2/m^4 * (4(F_munu F^munu)^2 + 7(F_munu *F^munu)^2)
+        # We simplify this as a non-linear term in the stress-energy tensor.
+        F_up = np.matmul(F, ETA)
+        F_inv = np.sum(F * np.matmul(ETA, F_up))
+        # Simplified non-linear contribution
+        alpha_corr = 1e-6 * (F_inv**2)
+
         T = stress_energy_em(F)
 
         # Energy flux components
         flux = np.sqrt(T[0,1]**2 + T[0,2]**2 + T[0,3]**2)
 
         # Stability check: Trace of T should be zero for pure EM field (conformally invariant)
-        # For matter-field, there might be a non-zero trace (mass), but we want low dissipation.
         trace = np.trace(np.matmul(T, ETA))
 
-        # Field Dissipation term (based on non-linearity/vorticity energy)
-        # In a real QED framework, high field gradients lead to pair production or dissipation.
-        dissipation = 0.01 * (self.energy_density**2 + np.sum(np.array(self.vorticity)**2))
+        # Topological stability bonus:
+        # Certain vorticities are more stable (quantum numbers)
+        v_norm = np.linalg.norm(self.vorticity)
+        stability_bonus = 1.0 + 0.5 * np.sin(v_norm * np.pi / 10.0) # Oscillation of stability
 
-        # Figure of Merit R-ZT = (Coupling * Flux) / (1 + abs(trace) + dissipation)
-        # High flux + low dissipation = high efficiency.
-        efficiency = (self.coupling_constant * flux) / (1.0 + abs(trace) + dissipation)
+        # Field Dissipation term (QED-scale)
+        dissipation = 0.005 * (self.energy_density**2 + v_norm**2) + alpha_corr
+
+        # Figure of Merit R-ZT = (Coupling * Flux * Stability) / (1 + abs(trace) + dissipation)
+        efficiency = (self.coupling_constant * flux * stability_bonus) / (1.0 + abs(trace) + dissipation)
         return efficiency
 
 if __name__ == "__main__":
