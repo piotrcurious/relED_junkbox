@@ -9,6 +9,8 @@ from material_db import load_db, save_to_db
 from parallel_search import parallel_search
 from chemical_translator import ChemicalTranslator
 from rel_boltzmann import rel_boltzmann_transport
+from optimization_mo_ga import MultiObjectiveOptimizer
+from discovery_pipeline import run_pipeline
 
 class TestRelThermo(unittest.TestCase):
     def test_tensor_trace(self):
@@ -119,6 +121,18 @@ class TestRelThermo(unittest.TestCase):
         # Candidates for E > 80: Pb, Bi, Tl, Hg, Au
         found_candidate = any(c in res['substance'] for c in ["Pb", "Bi", "Tl", "Hg", "Au"])
         self.assertTrue(found_candidate)
+
+    def test_multi_objective_ga(self):
+        optimizer = MultiObjectiveOptimizer(pop_size=10, generations=2)
+        result = optimizer.evolve()
+        self.assertIn('efficiency', result)
+        self.assertEqual(result['method'], 'multi_objective_ga')
+
+    def test_material_lifetime(self):
+        mat = RelMaterial(10, [0,0,1], 1.0)
+        lifetime = mat.calculate_lifetime()
+        self.assertGreater(lifetime, 0)
+        self.assertLessEqual(lifetime, 1.0)
 
     def test_parallel_search_format(self):
         # Small parallel search

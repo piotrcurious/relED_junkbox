@@ -5,6 +5,7 @@ import time
 from material_engine import RelMaterial
 from material_db import save_to_db
 from chemical_translator import ChemicalTranslator
+from config import DEFAULT_SAMPLES
 
 def evaluate_material_batch(args):
     """
@@ -42,7 +43,7 @@ def evaluate_material_batch(args):
 
     return local_best_params
 
-def parallel_search(total_iterations=1000, num_workers=None):
+def parallel_search(total_iterations=DEFAULT_SAMPLES, num_workers=None):
     if num_workers is None:
         # Respect NUMA/HPC environments via env var or cpu_count
         num_workers = int(os.environ.get('OMP_NUM_THREADS', os.cpu_count()))
