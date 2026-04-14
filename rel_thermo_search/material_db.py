@@ -1,7 +1,7 @@
 import json
 import os
 
-DB_FILE = "rel_thermo_search/discovered_materials.json"
+DB_FILE = os.path.join(os.path.dirname(__file__), "discovered_materials.json")
 
 def load_db():
     if not os.path.exists(DB_FILE):
