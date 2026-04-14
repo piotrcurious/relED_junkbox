@@ -29,11 +29,19 @@ def visualize():
     for i in top_indices:
         plt.annotate(substances[i], (energies[i], vorticities[i]),
                      xytext=(5, 5), textcoords='offset points', fontsize=8, alpha=0.8)
+
+    # Add Schwinger Stability Contour
+    # E = coupling * energy_density. Let's assume average coupling = 1.0
+    # Stability limit E < 500 => Energy Density < 500
+    plt.axvline(x=500, color='r', linestyle='--', alpha=0.3, label='Schwinger Limit (E=500)')
+    plt.text(505, plt.ylim()[1]*0.9, 'Unstable Region', color='r', alpha=0.5, rotation=90)
+
     plt.colorbar(scatter, label='Efficiency (R-ZT)')
     plt.xlabel('Energy Density')
     plt.ylabel('Vorticity Magnitude')
     plt.title('Discovered Relativistic Thermoelectric Materials')
     plt.grid(True)
+    plt.legend()
 
     output_path = os.path.join(os.path.dirname(__file__), 'discovery_map.png')
     plt.savefig(output_path)

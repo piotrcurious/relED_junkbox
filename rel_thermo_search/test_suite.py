@@ -7,6 +7,7 @@ from material_engine import RelMaterial
 from optimization_ga import GeneticOptimizer
 from material_db import load_db, save_to_db
 from parallel_search import parallel_search
+from chemical_translator import ChemicalTranslator
 
 class TestRelThermo(unittest.TestCase):
     def test_tensor_trace(self):
@@ -88,6 +89,27 @@ class TestRelThermo(unittest.TestCase):
         # Lower it back
         F_back = lower_index(F_up, 0)
         np.testing.assert_array_almost_equal(F, F_back)
+
+    def test_schwinger_limit(self):
+        # High field should trigger Schwinger dissipation
+        # Need some B field for non-zero flux
+        mat_safe = RelMaterial(10, [1,0,0], 1.0) # E = 10
+        mat_crit = RelMaterial(1000, [1,0,0], 1.0) # E = 1000 > 500
+
+        eff_safe = mat_safe.calculate_efficiency()
+        eff_crit = mat_crit.calculate_efficiency()
+
+        # eff_crit should be drastically lower due to exp dissipation
+        self.assertGreater(eff_safe, eff_crit)
+
+    def test_translator_logic(self):
+        trans = ChemicalTranslator()
+        # Test extreme energy density mapping
+        res = trans.translate(150.0, [0,0,0], 1.0)
+        self.assertIn("Theoretical", res['substance'])
+        # Candidates for E > 80: Pb, Bi, Tl, Hg, Au
+        found_candidate = any(c in res['substance'] for c in ["Pb", "Bi", "Tl", "Hg", "Au"])
+        self.assertTrue(found_candidate)
 
     def test_parallel_search_format(self):
         # Small parallel search

@@ -15,6 +15,10 @@ where $F^{i0}$ is the electric field component and $T^{00}$ is the energy densit
 We define the efficiency of a material based on the stability of its solitonic vortices and the strength of its $T-J$ coupling.
 $R-ZT = \frac{(S_{rel})^2 \cdot \text{Vorticity Efficiency}}{\text{Dissipation Rate}}$
 
+### 3.1 Non-Linear QED Corrections
+- **Euler-Heisenberg:** At high field intensities, the vacuum itself becomes non-linear, contributing an effective $\alpha(F^2)$ term to the dissipation.
+- **Schwinger Limit:** If the internal electric field $E$ exceeds a critical threshold ($\sim 500$ units in our normalized model), pair production leads to exponential dissipation, destroying solitonic stability.
+
 ## 4. Stability Condition
 A valid material must satisfy:
 $\partial_\mu T^{\mu\nu} = 0$ (Conservation of Energy-Momentum)

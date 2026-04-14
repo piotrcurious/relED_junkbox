@@ -16,6 +16,21 @@ ELEMENTS = {
     "Se": {"mass": 78.9, "en": 2.55, "type": "chalcogen"},
     "Ag": {"mass": 107.8, "en": 1.93, "type": "transition"},
     "Sn": {"mass": 118.7, "en": 1.96, "type": "p-block"},
+    "Au": {"mass": 197.0, "en": 2.54, "type": "transition"},
+    "Hg": {"mass": 200.6, "en": 2.0, "type": "transition"},
+    "Tl": {"mass": 204.4, "en": 2.04, "type": "p-block"},
+    "In": {"mass": 114.8, "en": 1.78, "type": "p-block"},
+    "Ga": {"mass": 69.7, "en": 1.81, "type": "p-block"},
+    "As": {"mass": 74.9, "en": 2.18, "type": "metalloid", "valency": 3},
+    "S": {"mass": 32.1, "en": 2.58, "type": "chalcogen", "valency": 2},
+    "Bi": {"mass": 208.9, "en": 2.02, "type": "p-block", "valency": 3},
+    "Te": {"mass": 127.6, "en": 2.1, "type": "chalcogen", "valency": 2},
+    "Sb": {"mass": 121.7, "en": 2.05, "type": "p-block", "valency": 3},
+    "Pb": {"mass": 207.2, "en": 2.33, "type": "p-block", "valency": 2},
+    "Si": {"mass": 28.1, "en": 1.9, "type": "metalloid", "valency": 4},
+    "Ge": {"mass": 72.6, "en": 2.01, "type": "metalloid", "valency": 4},
+    "Co": {"mass": 58.9, "en": 1.88, "type": "transition", "valency": 3},
+    "Zn": {"mass": 65.4, "en": 1.65, "type": "transition", "valency": 2},
 }
 
 class ChemicalTranslator:
@@ -68,17 +83,24 @@ class ChemicalTranslator:
 
             candidates = []
             if energy_density > 80:
-                candidates = ["Pb", "Bi", "Sn"]
+                candidates = ["Pb", "Bi", "Tl", "Hg", "Au"]
             elif energy_density > 40:
-                candidates = ["Sb", "Te", "Se", "Ag"]
+                candidates = ["Sb", "Te", "Se", "Ag", "Sn", "In"]
             else:
-                candidates = ["Si", "Ge", "Co", "Zn"]
+                candidates = ["Si", "Ge", "Co", "Zn", "Ga", "As", "S"]
 
-            # Pick two elements based on vorticity
+            # Pick two elements and try to balance valency for a "Stoichiometric" guess
+            el1 = candidates[0]
+            el2 = candidates[min(1, len(candidates)-1)]
+
+            v1 = ELEMENTS.get(el1, {}).get('valency', 1)
+            v2 = ELEMENTS.get(el2, {}).get('valency', 1)
+
+            # Simple balancing: el1_v2 el2_v1
             if v_mag > 30:
-                formula = f"{candidates[0]}x{candidates[1]}y (High-Vorticity Alloy)"
+                formula = f"{el1}{v2}{el2}{v1} (Topological Phase)"
             else:
-                formula = f"{candidates[0]}-{candidates[1]} Solid Solution"
+                formula = f"{el1}{el2} Solid Solution"
 
             predicted_substance = f"Theoretical {formula} [Ref: {best_match_name}]"
 
