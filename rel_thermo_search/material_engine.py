@@ -1,5 +1,6 @@
 import numpy as np
 from rel_tensor_util import ETA, faraday_tensor, stress_energy_em
+from rel_boltzmann import rel_boltzmann_transport
 
 class RelMaterial:
     def __init__(self, energy_density, vorticity, coupling_constant, meb_coupling=1.0):
@@ -76,11 +77,19 @@ class RelMaterial:
         v_norm = np.linalg.norm(self.vorticity)
         stability_bonus = 1.0 + 0.5 * np.sin(v_norm * np.pi / 10.0)
 
+        # Relativistic Transport Coefficients from R-BTE
+        coeffs = rel_boltzmann_transport(self.energy_density, v_norm, self.coupling_constant)
+
+        # Refined R-ZT: (S^2 * sigma * stability) / (kappa + dissipation)
+        # Power factor term
+        pf_rel = (coeffs['seebeck_rel']**2) * coeffs['sigma_rel']
+
         # Field Dissipation term
         dissipation = 0.005 * (self.energy_density**2 + v_norm**2) + alpha_corr + schwinger_dissipation
 
         # Figure of Merit R-ZT
-        efficiency = (self.coupling_constant * flux * stability_bonus * self.meb_coupling) / (1.0 + abs(trace) + dissipation)
+        # Integrating flux and BTE-derived transport
+        efficiency = (pf_rel * flux * stability_bonus * self.meb_coupling) / (coeffs['kappa_rel'] + abs(trace) + dissipation)
         return efficiency
 
 if __name__ == "__main__":

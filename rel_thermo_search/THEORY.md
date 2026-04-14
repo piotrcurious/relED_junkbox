@@ -13,7 +13,14 @@ where $F^{i0}$ is the electric field component and $T^{00}$ is the energy densit
 
 ## 3. Relativistic Figure of Merit (R-ZT)
 We define the efficiency of a material based on the stability of its solitonic vortices and the strength of its $T-J$ coupling.
-$R-ZT = \frac{(S_{rel})^2 \cdot \text{Vorticity Efficiency}}{\text{Dissipation Rate}}$
+
+The model incorporates **Relativistic Boltzmann Transport (R-BTE)**:
+- **Electrical Conductivity ($\sigma_{rel}$):** Derived from Drude-like field excitations.
+- **Seebeck Coefficient ($S_{rel}$):** Proportional to field entropy and vorticity.
+- **Thermal Conductivity ($\kappa_{rel}$):** Includes relativistic Wiedemann-Franz contributions.
+
+The refined figure of merit is:
+$R-ZT = \frac{(S_{rel})^2 \sigma_{rel} \cdot \text{Flux} \cdot \text{Stability}}{\kappa_{rel} + \text{Dissipation}}$
 
 ### 3.1 Non-Linear QED Corrections
 - **Euler-Heisenberg:** At high field intensities, the vacuum itself becomes non-linear, contributing an effective $\alpha(F^2)$ term to the dissipation.

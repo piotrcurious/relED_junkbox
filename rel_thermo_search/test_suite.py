@@ -8,6 +8,7 @@ from optimization_ga import GeneticOptimizer
 from material_db import load_db, save_to_db
 from parallel_search import parallel_search
 from chemical_translator import ChemicalTranslator
+from rel_boltzmann import rel_boltzmann_transport
 
 class TestRelThermo(unittest.TestCase):
     def test_tensor_trace(self):
@@ -101,6 +102,14 @@ class TestRelThermo(unittest.TestCase):
 
         # eff_crit should be drastically lower due to exp dissipation
         self.assertGreater(eff_safe, eff_crit)
+
+    def test_boltzmann_transport(self):
+        # Base case
+        res = rel_boltzmann_transport(10, 5, 1.0)
+        self.assertIn('sigma_rel', res)
+        self.assertIn('seebeck_rel', res)
+        self.assertIn('kappa_rel', res)
+        self.assertGreater(res['sigma_rel'], 0)
 
     def test_translator_logic(self):
         trans = ChemicalTranslator()

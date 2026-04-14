@@ -33,8 +33,10 @@ def sensitivity_analysis():
     axs[2].set_xlabel('Coupling')
 
     plt.tight_layout()
-    plt.savefig('rel_thermo_search/sensitivity_analysis.png')
-    print("Sensitivity analysis saved to rel_thermo_search/sensitivity_analysis.png")
+    import os
+    output_path = os.path.join(os.path.dirname(__file__), 'sensitivity_analysis.png')
+    plt.savefig(output_path)
+    print(f"Sensitivity analysis saved to {output_path}")
 
 if __name__ == "__main__":
     sensitivity_analysis()
