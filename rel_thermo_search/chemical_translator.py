@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import re
 from material_mapping import KNOWN_MATERIALS
 
 # Heuristic Element Properties for Synthesis
@@ -73,8 +74,6 @@ class ChemicalTranslator:
 
         if best_match_dist < 0.1:
             predicted_substance = best_match_name
-            # Try to extract elements from anchor name for stability calculation
-            import re
             found_els = re.findall(r'([A-Z][a-z]*)', best_match_name)
             el1 = found_els[0] if len(found_els) > 0 else "Bi"
             el2 = found_els[1] if len(found_els) > 1 else "Te"
@@ -121,7 +120,6 @@ class ChemicalTranslator:
             if formula.lower() in name.lower():
                 return props
 
-        import re
         parts = re.findall(r'([A-Z][a-z]*)(\d*)', formula)
 
         total_mass = 0

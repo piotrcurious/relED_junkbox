@@ -1,5 +1,10 @@
 import numpy as np
 
+import logging
+from config import BTE_CARRIER_CONST, BTE_RELAX_CONST, CHI_QED_CONST
+
+logger = logging.getLogger(__name__)
+
 def rel_boltzmann_transport(energy_density, vorticity_mag, coupling):
     """
     Simplified Relativistic Boltzmann Transport Equation (R-BTE) solver.

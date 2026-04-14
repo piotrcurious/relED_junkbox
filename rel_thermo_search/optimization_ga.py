@@ -3,9 +3,10 @@ import random
 from material_engine import RelMaterial
 from material_db import load_db, save_to_db
 from chemical_translator import ChemicalTranslator
+from config import POP_SIZE, MUTATION_RATE, DEFAULT_GENERATIONS
 
 class GeneticOptimizer:
-    def __init__(self, pop_size=50, mutation_rate=0.1, generations=20):
+    def __init__(self, pop_size=POP_SIZE, mutation_rate=MUTATION_RATE, generations=DEFAULT_GENERATIONS):
         self.pop_size = pop_size
         self.mutation_rate = mutation_rate
         self.generations = generations

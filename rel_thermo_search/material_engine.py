@@ -1,6 +1,12 @@
 import numpy as np
-from rel_tensor_util import ETA, faraday_tensor, stress_energy_em
+import logging
+from rel_tensor_util import faraday_tensor, stress_energy_em
 from rel_boltzmann import rel_boltzmann_transport
+from config import ETA, CRITICAL_FIELD, ALPHA_EH, DISSIPATION_FACTOR
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
 
 class RelMaterial:
     def __init__(self, energy_density, vorticity, coupling_constant, meb_coupling=1.0):
@@ -8,6 +14,7 @@ class RelMaterial:
         self.vorticity = vorticity # Vector representing the internal EM vortex strength
         self.coupling_constant = coupling_constant
         self.meb_coupling = meb_coupling # Mass-Energy-Bond coupling
+        logger.debug(f"Material initialized: E={energy_density}, V={vorticity}")
 
     def simulate_fields(self):
         """
@@ -21,6 +28,16 @@ class RelMaterial:
         E = self.coupling_constant * np.array([self.energy_density, self.energy_density, self.energy_density])
         return E, B
 
+    def calculate_lifetime(self):
+        """
+        Estimates solitonic lifetime (normalized).
+        Materials with high field gradients and low stability have shorter lifetimes.
+        """
+        stability = self.calculate_stability()
+        # Lifetime depends on stability and energy density (higher density = faster decay)
+        lifetime = stability / (1.0 + 0.01 * self.energy_density)
+        return lifetime
+
     def calculate_stability(self):
         """
         Calculates a stability score (0 to 1).
@@ -28,13 +45,14 @@ class RelMaterial:
         """
         E, _ = self.simulate_fields()
         e_mag = np.linalg.norm(E)
-        CRITICAL_FIELD = 500.0
 
         if e_mag <= CRITICAL_FIELD:
             return 1.0
         else:
             # Decay score
-            return np.exp(-(e_mag - CRITICAL_FIELD) / 200.0)
+            score = np.exp(-(e_mag - CRITICAL_FIELD) / 200.0)
+            logger.warning(f"Field exceeds Schwinger limit! e_mag={e_mag:.2f}, stability={score:.4f}")
+            return score
 
     def calculate_efficiency(self):
         """
@@ -50,7 +68,7 @@ class RelMaterial:
         # Invariants: I1 = 1/2 F_munu F^munu, I2 = 1/4 F_munu *F^munu
         # We use a simplified invariant for correction
         F_inv = np.sum(F * np.matmul(ETA, F_up))
-        alpha_corr = 1e-6 * (F_inv**2)
+        alpha_corr = ALPHA_EH * (F_inv**2)
 
         T = stress_energy_em(F)
 
@@ -67,7 +85,6 @@ class RelMaterial:
         # QED Pair Production (Schwinger Effect) Limit
         # When E field exceeds a critical value, vacuum decays.
         e_mag = np.linalg.norm(E)
-        CRITICAL_FIELD = 500.0
         schwinger_dissipation = 0.0
         if e_mag > CRITICAL_FIELD:
             # Exponentially increasing dissipation
@@ -85,7 +102,7 @@ class RelMaterial:
         pf_rel = (coeffs['seebeck_rel']**2) * coeffs['sigma_rel']
 
         # Field Dissipation term
-        dissipation = 0.005 * (self.energy_density**2 + v_norm**2) + alpha_corr + schwinger_dissipation
+        dissipation = DISSIPATION_FACTOR * (self.energy_density**2 + v_norm**2) + alpha_corr + schwinger_dissipation
 
         # Figure of Merit R-ZT
         # Integrating flux and BTE-derived transport

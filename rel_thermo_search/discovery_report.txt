@@ -1,5 +1,5 @@
 RELATIVISTIC THERMOELECTRIC DISCOVERY REPORT
-Generated: 2026-04-14 15:08:47
+Generated: 2026-04-14 20:31:02
 =============================================
 
 Total Materials Discovered: 3
@@ -7,22 +7,22 @@ Total Materials Discovered: 3
 TOP 5 CANDIDATES:
 ---------------
 1. Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]
-   R-ZT: 7983.3170
+   R-ZT: 8761.1150
    Bond Type: Complex Covalent-Ionic (Topological Vortex)
    Confidence: 0.00%
-   Parameters: E=7.65, V=[-4.509363435468265, 14.344186962382357, -41.552523208346884], C=3.41
+   Parameters: E=10.42, V=[-38.50278460393608, 36.566847656017906, -35.94117156544838], C=3.69
 
 2. Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Lead Telluride (PbTe)]
-   R-ZT: 7983.3170
+   R-ZT: 8761.1150
    Bond Type: Complex Covalent-Ionic (Topological Vortex)
    Confidence: 0.00%
-   Parameters: E=7.65, V=[-4.509363435468265, 14.344186962382357, -41.552523208346884], C=3.41
+   Parameters: E=10.42, V=[-38.50278460393608, 36.566847656017906, -35.94117156544838], C=3.69
 
 3. Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]
-   R-ZT: 191.0340
+   R-ZT: 569.0066
    Bond Type: Complex Covalent-Ionic (Topological Vortex)
-   Confidence: 21.68%
-   Parameters: E=14.27, V=[16.160556214774616, -39.31899316145926, 27.694039236446585], C=1.63
+   Confidence: 0.00%
+   Parameters: E=20.55, V=[-44.711091084095436, 32.25110983543557, -30.83178953634261], C=1.91
 
 
 End of Report.

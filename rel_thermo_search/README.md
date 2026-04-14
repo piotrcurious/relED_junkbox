@@ -26,17 +26,37 @@ The map shows the relationship between energy density, vorticity magnitude, and 
 
 This analysis shows how the Relativistic Figure of Merit (R-ZT) responds to changes in individual field parameters.
 
+## Phase Diagram
+
+![Phase Diagram](phase_diagram.png)
+
+The phase diagram maps regions of field stability and efficiency across the Energy Density and Vorticity space.
+
+## Top Candidates
+
+![Top Candidates](top_candidates.png)
+
+Summary of the most efficient and chemically stable materials discovered by the suite.
+
 ## Project Structure
 
+- `config.py`: Centralized physical constants and discovery defaults.
 - `rel_tensor_util.py`: Covariant tensor operations (Minkowski metric $+---$).
-- `material_engine.py`: Core physics engine and efficiency calculator.
+- `material_engine.py`: Core physics engine (Solitonic stability, efficiency calculator).
+- `rel_boltzmann.py`: Relativistic transport solver (R-BTE).
 - `parallel_search.py`: HPC-optimized random search using multiprocessing.
 - `optimization_ga.py`: Genetic Algorithm for evolving optimal field configurations.
 - `optimization_mo_ga.py`: Multi-objective GA (Efficiency + Stability).
 - `material_db.py`: Persistence layer for discovered materials.
-- `validate_real_materials.py`: Correlation tool against empirical data (Bi2Te3, PbTe, etc.).
 - `chemical_translator.py`: Maps relativistic parameters to chemical nomenclature and bond types.
-- `visualize_discovery.py`: Visualization generator.
+- `discovery_pipeline.py`: Unified entry point for the discovery workflow.
+- `visualize_discovery.py`: General discovery map generator.
+- `plot_phase_diagram.py`: Stability/Efficiency field mapping tool.
+- `plot_top_candidates.py`: Comparison plot for top candidates.
+- `analyze_formula.py`: Formula-based relativistic property analyst.
+- `compare_materials.py`: Side-by-side material comparator.
+- `generate_report.py`: Discovery report generator.
+- `validate_real_materials.py`: Correlation tool against empirical data.
 
 ## Chemical Mapping
 
@@ -82,6 +102,16 @@ python3 generate_report.py
 ### 7. Compare Two Materials
 ```bash
 python3 compare_materials.py Bi2Te3 PbTe
+```
+
+### 8. Generate Phase Diagram
+```bash
+python3 plot_phase_diagram.py
+```
+
+### 9. Run the full Discovery Pipeline
+```bash
+python3 discovery_pipeline.py --iterations 500 --generations 20
 ```
 
 ## Requirements
