@@ -3,6 +3,7 @@ import multiprocessing as mp
 import os
 import time
 from material_engine import RelMaterial
+from material_db import save_to_db
 
 def evaluate_material_batch(args):
     """
@@ -10,6 +11,9 @@ def evaluate_material_batch(args):
     Returns the best parameters and efficiency found in this batch.
     """
     batch_size, worker_id = args
+
+    # Ensure fresh randomness in each worker process
+    np.random.seed((os.getpid() * int(time.time())) % 123456789)
 
     # NUMA Consideration: Affinity/Pinning Hint
     # In a real NUMA environment, we might use psutil to pin to specific cores.
@@ -71,6 +75,9 @@ def parallel_search(total_iterations=10000, num_workers=None):
     print(f"Maximum R-ZT: {global_best['efficiency']:.4f}")
     print(f"Search Duration: {duration:.2f} seconds")
     print("------------------------------------------------------------")
+
+    # Save the best finding from this run to the persistent database
+    save_to_db(global_best)
 
     return global_best
 
