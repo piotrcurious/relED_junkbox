@@ -1,47 +1,199 @@
 [
     {
-        "energy_density": 16.35124775944523,
+        "energy_density": 13.506613498819432,
         "vorticity": [
-            -9.482524131700604,
-            54.09979567392493,
-            -89.23720588457076
+            -64.39409461168258,
+            25.56264365684578,
+            3.37984833652321
         ],
-        "coupling": 3.68989995742412,
-        "efficiency": 4877.032675057604,
-        "method": "genetic_algorithm",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]",
-        "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
-        "nearest_anchor": "Zinc Antimonide (Zn4Sb3)",
-        "confidence": 0.0,
-        "chemical_stability": 0.8
-    },
-    {
-        "energy_density": 16.35124775944523,
-        "vorticity": [
-            -9.482524131700604,
-            54.09979567392493,
-            -89.23720588457076
-        ],
-        "coupling": 3.68989995742412,
-        "efficiency": 4877.032675057604,
+        "coupling": 3.2454860106697705,
+        "efficiency": 19601.835664862865,
+        "stability": 1.0,
         "method": "multi_objective_ga",
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]",
+        "substance": "Theoretical SiGeCoZn (Quaternary Solitonic Alloy) [Ref: Zinc Antimonide (Zn4Sb3)]",
+        "category": "Metalloid-Based Soliton",
         "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
+        "synthesis_path": "Standard Solid-State Reaction using Flux Growth (Monocrystal)",
         "nearest_anchor": "Zinc Antimonide (Zn4Sb3)",
         "confidence": 0.0,
-        "chemical_stability": 0.8
+        "chemical_stability": 0.8,
+        "history": [
+            {
+                "gen": 1,
+                "eff": 5441.178552641236,
+                "stab": 1.0
+            },
+            {
+                "gen": 2,
+                "eff": 5441.178552641236,
+                "stab": 1.0
+            },
+            {
+                "gen": 3,
+                "eff": 6775.6932093368505,
+                "stab": 1.0
+            },
+            {
+                "gen": 4,
+                "eff": 8285.253775149804,
+                "stab": 1.0
+            },
+            {
+                "gen": 5,
+                "eff": 13669.68916715806,
+                "stab": 1.0
+            },
+            {
+                "gen": 6,
+                "eff": 13669.68916715806,
+                "stab": 1.0
+            },
+            {
+                "gen": 7,
+                "eff": 13997.916705078334,
+                "stab": 1.0
+            },
+            {
+                "gen": 8,
+                "eff": 13997.916705078334,
+                "stab": 1.0
+            },
+            {
+                "gen": 9,
+                "eff": 13997.916705078334,
+                "stab": 1.0
+            },
+            {
+                "gen": 10,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 11,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 12,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 13,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 14,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 15,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 16,
+                "eff": 14883.546880032214,
+                "stab": 1.0
+            },
+            {
+                "gen": 17,
+                "eff": 16779.17523288133,
+                "stab": 1.0
+            },
+            {
+                "gen": 18,
+                "eff": 16779.17523288133,
+                "stab": 1.0
+            },
+            {
+                "gen": 19,
+                "eff": 16779.17523288133,
+                "stab": 1.0
+            },
+            {
+                "gen": 20,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 21,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 22,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 23,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 24,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 25,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 26,
+                "eff": 17317.716717403313,
+                "stab": 1.0
+            },
+            {
+                "gen": 27,
+                "eff": 19601.835664862865,
+                "stab": 1.0
+            },
+            {
+                "gen": 28,
+                "eff": 19601.835664862865,
+                "stab": 1.0
+            },
+            {
+                "gen": 29,
+                "eff": 19601.835664862865,
+                "stab": 1.0
+            },
+            {
+                "gen": 30,
+                "eff": 19601.835664862865,
+                "stab": 1.0
+            }
+        ]
     },
     {
-        "energy_density": 18.323614598577613,
+        "energy_density": 12.66811271289576,
         "vorticity": [
-            47.62563915810975,
-            7.758613707628385,
-            -75.57636077591023
+            -12.935156873261917,
+            36.7732464394805,
+            -62.852169547674286
         ],
-        "coupling": 2.5279971785641426,
-        "efficiency": 705.6738382212875,
-        "substance": "Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]",
+        "coupling": 2.9158953196200694,
+        "efficiency": 5441.178552641236,
+        "method": "surrogate_search"
+    },
+    {
+        "energy_density": 17.435915166844925,
+        "vorticity": [
+            60.266138318091265,
+            -38.70826192999739,
+            -29.270523188531754
+        ],
+        "coupling": 2.4848425321623666,
+        "efficiency": 5249.164097038771,
+        "substance": "Theoretical SiGeCoZn (Quaternary Solitonic Alloy) [Ref: Zinc Antimonide (Zn4Sb3)]",
+        "category": "Metalloid-Based Soliton",
         "bond_type": "Complex Covalent-Ionic (Topological Vortex)",
+        "synthesis_path": "Standard Solid-State Reaction using Flux Growth (Monocrystal)",
         "nearest_anchor": "Zinc Antimonide (Zn4Sb3)",
         "confidence": 0.0,
         "chemical_stability": 0.8

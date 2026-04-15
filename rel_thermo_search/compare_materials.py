@@ -6,26 +6,26 @@ from chemical_translator import ChemicalTranslator
 def compare(formula1, formula2):
     translator = ChemicalTranslator()
 
-    mats = []
+    data = []
     for f in [formula1, formula2]:
         p = translator.reverse_lookup(f)
         mat = RelMaterial(p['energy_density'], p['vorticity'], p['coupling'])
-        mats.append((f, mat))
+        chem = translator.translate(p['energy_density'], p['vorticity'], p['coupling'])
+        data.append({'formula': f, 'mat': mat, 'chem': chem})
 
     print(f"{'Metric':<25} | {formula1:<30} | {formula2:<30}")
     print("-" * 90)
 
-    eff1 = mats[0][1].calculate_efficiency()
-    eff2 = mats[1][1].calculate_efficiency()
+    eff1 = data[0]['mat'].calculate_efficiency()
+    eff2 = data[1]['mat'].calculate_efficiency()
     print(f"{'Rel Figure of Merit':<25} | {eff1:<30.4f} | {eff2:<30.4f}")
 
-    stab1 = mats[0][1].calculate_stability()
-    stab2 = mats[1][1].calculate_stability()
+    stab1 = data[0]['mat'].calculate_stability()
+    stab2 = data[1]['mat'].calculate_stability()
     print(f"{'Field Stability':<25} | {stab1:<30.4f} | {stab2:<30.4f}")
 
-    E1, _ = mats[0][1].simulate_fields()
-    E2, _ = mats[1][1].simulate_fields()
-    print(f"{'Electric Field':<25} | {np.linalg.norm(E1):<30.2f} | {np.linalg.norm(E2):<30.2f}")
+    print(f"{'Category':<25} | {data[0]['chem'].get('category', 'N/A'):<30} | {data[1]['chem'].get('category', 'N/A'):<30}")
+    print(f"{'Synthesis Path':<25} | {data[0]['chem'].get('synthesis_path', 'N/A')[:28]:<30} | {data[1]['chem'].get('synthesis_path', 'N/A')[:28]:<30}")
 
     print("-" * 90)
     winner = formula1 if eff1 > eff2 else formula2

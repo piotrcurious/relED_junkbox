@@ -38,25 +38,59 @@ The phase diagram maps regions of field stability and efficiency across the Ener
 
 Summary of the most efficient and chemically stable materials discovered by the suite.
 
+## GA Convergence
+
+![GA Convergence](ga_convergence.png)
+
+Shows the evolution of Efficiency and Stability across generations.
+
+## Interaction Map
+
+![Interaction Map](interaction_map.png)
+
+Visualizes the coupling between Energy Density and the Coupling Constant.
+
+## Vortex Structure
+
+![Vortex Structure](vortex_structure.png)
+
+3D visualization of the internal solitonic field lines (B-vorticity and E-gradient).
+
+## Degradation Trade-off
+
+![Degradation Trade-off](degradation_tradeoff.png)
+
+Analyzes the relationship between Thermoelectric Efficiency and the solitonic lifetime of the material configuration.
+
 ## Project Structure
 
 - `config.py`: Centralized physical constants and discovery defaults.
 - `rel_tensor_util.py`: Covariant tensor operations (Minkowski metric $+---$).
-- `material_engine.py`: Core physics engine (Solitonic stability, efficiency calculator).
-- `rel_boltzmann.py`: Relativistic transport solver (R-BTE).
+- `material_engine.py`: Core physics engine (Solitonic stability, lifetime, curvature).
+- `rel_boltzmann.py`: Relativistic transport solver (R-BTE) with vertex corrections.
 - `parallel_search.py`: HPC-optimized random search using multiprocessing.
-- `optimization_ga.py`: Genetic Algorithm for evolving optimal field configurations.
-- `optimization_mo_ga.py`: Multi-objective GA (Efficiency + Stability).
+- `optimization_ga.py`: Standard Genetic Algorithm.
+- `optimization_mo_ga.py`: Multi-objective Pareto GA (NSGA-II inspired).
+- `optimization_surrogate.py`: Bayesian-inspired surrogate discovery search.
 - `material_db.py`: Persistence layer for discovered materials.
-- `chemical_translator.py`: Maps relativistic parameters to chemical nomenclature and bond types.
+- `chemical_translator.py`: Maps field parameters to chemical nomenclature (Binary, Ternary, Quaternary).
 - `discovery_pipeline.py`: Unified entry point for the discovery workflow.
 - `visualize_discovery.py`: General discovery map generator.
 - `plot_phase_diagram.py`: Stability/Efficiency field mapping tool.
 - `plot_top_candidates.py`: Comparison plot for top candidates.
+- `plot_ga_history.py`: GA convergence plotting.
+- `plot_interactions.py`: Parameter interaction mapping.
+- `plot_vortex_structure.py`: 3D vortex field visualization.
+- `plot_degradation.py`: Efficiency-lifetime trade-off plotter.
 - `analyze_formula.py`: Formula-based relativistic property analyst.
 - `compare_materials.py`: Side-by-side material comparator.
+- `browse_db.py`: CLI tool for database inspection and filtering.
 - `generate_report.py`: Discovery report generator.
 - `validate_real_materials.py`: Correlation tool against empirical data.
+
+## Output Summaries
+- `discovery_report.txt`: Detailed technical log of the discovery run.
+- `top_materials_summary.md`: Clean Markdown table of top candidates for documentation.
 
 ## Chemical Mapping
 

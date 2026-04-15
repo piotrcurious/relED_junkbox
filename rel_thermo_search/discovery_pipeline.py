@@ -11,6 +11,10 @@ def run_pipeline(iterations=500, generations=20):
     print(f"\nStep 1: Parallel Random Search ({iterations} iterations)...")
     subprocess.run([sys.executable, "rel_thermo_search/parallel_search.py", "--total_iterations", str(iterations)], check=True)
 
+    # 2.5 Run Surrogate Search
+    print("\nStep 1.5: Surrogate-Guided Discovery...")
+    subprocess.run([sys.executable, "rel_thermo_search/optimization_surrogate.py"], check=True)
+
     # 3. Run Multi-Objective GA
     print(f"\nStep 2: Multi-Objective Genetic Evolution ({generations} generations)...")
     subprocess.run([sys.executable, "rel_thermo_search/optimization_mo_ga.py"], check=True)
@@ -21,6 +25,9 @@ def run_pipeline(iterations=500, generations=20):
     subprocess.run([sys.executable, "rel_thermo_search/sensitivity_analysis.py"], check=True)
     subprocess.run([sys.executable, "rel_thermo_search/plot_top_candidates.py"], check=True)
     subprocess.run([sys.executable, "rel_thermo_search/plot_phase_diagram.py"], check=True)
+    subprocess.run([sys.executable, "rel_thermo_search/plot_interactions.py"], check=True)
+    subprocess.run([sys.executable, "rel_thermo_search/plot_ga_history.py"], check=True)
+    subprocess.run([sys.executable, "rel_thermo_search/plot_vortex_structure.py"], check=True)
     subprocess.run([sys.executable, "rel_thermo_search/validate_real_materials.py"], check=True)
 
     # 5. Generate Report

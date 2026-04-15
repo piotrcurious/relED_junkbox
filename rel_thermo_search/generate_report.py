@@ -31,13 +31,26 @@ def generate_report():
         for i, mat in enumerate(db[:5]):
             f.write(f"{i+1}. {mat.get('substance', 'Theoretical Compound')}\n")
             f.write(f"   R-ZT: {mat['efficiency']:.4f}\n")
+            f.write(f"   Stability: {mat.get('stability', 1.0):.4f}\n")
+            f.write(f"   Category: {mat.get('category', 'N/A')}\n")
             f.write(f"   Bond Type: {mat.get('bond_type', 'N/A')}\n")
+            f.write(f"   Synthesis: {mat.get('synthesis_path', 'N/A')}\n")
             f.write(f"   Confidence: {mat.get('confidence', 0):.2%}\n")
             f.write(f"   Parameters: E={mat['energy_density']:.2f}, V={mat['vorticity']}, C={mat['coupling']:.2f}\n\n")
 
         f.write("\nEnd of Report.\n")
 
     print(f"Report generated: {report_path}")
+
+    # Generate Markdown Summary
+    md_path = os.path.join(os.path.dirname(__file__), "top_materials_summary.md")
+    with open(md_path, 'w') as f:
+        f.write("# Discovered Materials Summary\n\n")
+        f.write("| Rank | Substance | Category | R-ZT | Stability |\n")
+        f.write("|------|-----------|----------|------|-----------|\n")
+        for i, mat in enumerate(db[:10]):
+            f.write(f"| {i+1} | {mat.get('substance')} | {mat.get('category', 'N/A')} | {mat['efficiency']:.2f} | {mat.get('stability', 1.0):.2f} |\n")
+    print(f"Markdown summary generated: {md_path}")
 
 if __name__ == "__main__":
     generate_report()

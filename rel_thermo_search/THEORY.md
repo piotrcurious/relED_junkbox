@@ -14,6 +14,8 @@ where $F^{i0}$ is the electric field component and $T^{00}$ is the energy densit
 ## 3. Relativistic Figure of Merit (R-ZT)
 We define the efficiency of a material based on the stability of its solitonic vortices and the strength of its $T-J$ coupling.
 
+The model uses **Multi-Objective Pareto Optimization** to balance R-ZT with field stability. Individuals are ranked by non-domination counts to ensure discovered materials reside on the stability-efficiency frontier.
+
 The model incorporates **Relativistic Boltzmann Transport (R-BTE)**:
 - **Electrical Conductivity ($\sigma_{rel}$):** Derived from Drude-like field excitations.
 - **Seebeck Coefficient ($S_{rel}$):** Proportional to field entropy and vorticity.
@@ -26,8 +28,14 @@ $R-ZT = \frac{(S_{rel})^2 \sigma_{rel} \cdot \text{Flux} \cdot \text{Stability} 
 - **Euler-Heisenberg:** At high field intensities, the vacuum itself becomes non-linear, contributing an effective $\alpha(F^2)$ term to the dissipation.
 - **Schwinger Limit:** If the internal electric field $E$ exceeds a critical threshold ($\sim 500$ units in our normalized model), pair production leads to exponential dissipation, destroying solitonic stability.
 - **Vertex Correction:** In the R-BTE solver, the effective charge coupling is modified by the local field intensity: $g_{eff} = g(1 + 0.1 \sqrt{|\Omega|})$.
+- **Topological Resonance:** Efficiency peaks at integer values of the topological charge $Q = \text{round}(|\Omega|/10)$, representing stable harmonic field modes.
 
-## 4. Solitonic Lifetime ($\tau_{sol}$)
+## 4. Quantum Uncertainty ($\Delta R\text{-}ZT$)
+Derived from the energy-time uncertainty relation $\Delta E \Delta t \ge \hbar/2$, we model the metric fluctuation as:
+$\Delta R\text{-}ZT = 0.05 \sqrt{T^{00} \cdot \text{Coupling}}$
+This provides a confidence interval for the predicted performance.
+
+## 5. Solitonic Lifetime ($\tau_{sol}$)
 Matter fields are not infinitely stable. We model the lifetime as:
 $\tau_{sol} = \frac{\text{Stability}}{1 + 0.01 \cdot T^{00}}$
 This captures the thermal/density-driven decay of complex field configurations.

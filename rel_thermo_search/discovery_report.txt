@@ -1,28 +1,37 @@
 RELATIVISTIC THERMOELECTRIC DISCOVERY REPORT
-Generated: 2026-04-14 20:51:41
+Generated: 2026-04-15 01:07:35
 =============================================
 
 Total Materials Discovered: 3
 
 TOP 5 CANDIDATES:
 ---------------
-1. Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]
-   R-ZT: 4877.0327
+1. Theoretical SiGeCoZn (Quaternary Solitonic Alloy) [Ref: Zinc Antimonide (Zn4Sb3)]
+   R-ZT: 19601.8357
+   Stability: 1.0000
+   Category: Metalloid-Based Soliton
    Bond Type: Complex Covalent-Ionic (Topological Vortex)
+   Synthesis: Standard Solid-State Reaction using Flux Growth (Monocrystal)
    Confidence: 0.00%
-   Parameters: E=16.35, V=[-9.482524131700604, 54.09979567392493, -89.23720588457076], C=3.69
+   Parameters: E=13.51, V=[-64.39409461168258, 25.56264365684578, 3.37984833652321], C=3.25
 
-2. Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]
-   R-ZT: 4877.0327
-   Bond Type: Complex Covalent-Ionic (Topological Vortex)
+2. Theoretical Compound
+   R-ZT: 5441.1786
+   Stability: 1.0000
+   Category: N/A
+   Bond Type: N/A
+   Synthesis: N/A
    Confidence: 0.00%
-   Parameters: E=16.35, V=[-9.482524131700604, 54.09979567392493, -89.23720588457076], C=3.69
+   Parameters: E=12.67, V=[-12.935156873261917, 36.7732464394805, -62.852169547674286], C=2.92
 
-3. Theoretical SiGeCo6 (Relativistic Ternary) [Ref: Zinc Antimonide (Zn4Sb3)]
-   R-ZT: 705.6738
+3. Theoretical SiGeCoZn (Quaternary Solitonic Alloy) [Ref: Zinc Antimonide (Zn4Sb3)]
+   R-ZT: 5249.1641
+   Stability: 1.0000
+   Category: Metalloid-Based Soliton
    Bond Type: Complex Covalent-Ionic (Topological Vortex)
+   Synthesis: Standard Solid-State Reaction using Flux Growth (Monocrystal)
    Confidence: 0.00%
-   Parameters: E=18.32, V=[47.62563915810975, 7.758613707628385, -75.57636077591023], C=2.53
+   Parameters: E=17.44, V=[60.266138318091265, -38.70826192999739, -29.270523188531754], C=2.48
 
 
 End of Report.
