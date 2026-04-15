@@ -11,6 +11,8 @@ from chemical_translator import ChemicalTranslator
 from rel_boltzmann import rel_boltzmann_transport
 from optimization_mo_ga import MultiObjectiveOptimizer
 from discovery_pipeline import run_pipeline
+from analyze_formula import analyze_formula
+from compare_materials import compare
 
 class TestRelThermo(unittest.TestCase):
     def test_tensor_trace(self):
@@ -132,7 +134,39 @@ class TestRelThermo(unittest.TestCase):
         mat = RelMaterial(10, [0,0,1], 1.0)
         lifetime = mat.calculate_lifetime()
         self.assertGreater(lifetime, 0)
-        self.assertLessEqual(lifetime, 1.0)
+        self.assertLessEqual(lifetime, 2.0)
+
+    def test_topological_quantization(self):
+        mat = RelMaterial(10, [0,0,21], 1.0)
+        Q = mat.calculate_topological_charge()
+        self.assertEqual(Q, 2)
+
+    def test_uncertainty(self):
+        mat = RelMaterial(100, [0,0,0], 2.0)
+        unc = mat.calculate_uncertainty()
+        # 0.05 * sqrt(100 * 2) = 0.05 * 14.14 = 0.707
+        self.assertAlmostEqual(unc, 0.707, places=3)
+
+    def test_analyst_tool(self):
+        # Should not raise exception
+        analyze_formula("Bi2Te3")
+
+    def test_comparator_tool(self):
+        # Should not raise exception
+        compare("Bi2Te3", "PbTe")
+
+    def test_pareto_optimality(self):
+        # Test if is_dominated works correctly
+        optimizer = MultiObjectiveOptimizer(pop_size=4, generations=1)
+        # obj = (eff, stab)
+        obj1 = (100, 0.9)
+        obj2 = (110, 0.95) # dominates obj1
+        obj3 = (110, 0.8) # incomparable with obj2 (higher eff but lower stab? wait. obj2 has higher both.)
+        # wait. obj2 has (110, 0.95), obj3 has (110, 0.8). obj2 >= obj3 and obj2[1] > obj3[1].
+        # so obj2 dominates obj3 too.
+
+        self.assertTrue(optimizer._is_dominated(obj1, obj2))
+        self.assertFalse(optimizer._is_dominated(obj2, obj1))
 
     def test_parallel_search_format(self):
         # Small parallel search

@@ -28,15 +28,51 @@ class RelMaterial:
         E = self.coupling_constant * np.array([self.energy_density, self.energy_density, self.energy_density])
         return E, B
 
+    def calculate_topological_charge(self):
+        """
+        Maps vorticity magnitude to a quantized winding number Q.
+        In solitonic field theory, stability is often linked to integer topological charges.
+        """
+        v_norm = np.linalg.norm(self.vorticity)
+        # Quantization factor (every 10 units of vorticity is a charge step)
+        Q = round(v_norm / 10.0)
+        return Q
+
+    def calculate_degradation_rate(self):
+        """
+        Calculates the time-dependent degradation of the field configuration.
+        Based on internal power density J.E (ohmic heating of the soliton).
+        """
+        E, _ = self.simulate_fields()
+        # Assume J ~ sigma * E (Relativistic Ohm's Law)
+        v_norm = np.linalg.norm(self.vorticity)
+        coeffs = rel_boltzmann_transport(self.energy_density, v_norm, self.coupling_constant)
+
+        # Internal Power P = sigma * E^2
+        power = coeffs['sigma_rel'] * np.sum(E**2)
+
+        # Degradation is proportional to power and inversely proportional to topological protection
+        Q = self.calculate_topological_charge()
+        protection = 1.0 + abs(Q)
+
+        rate = 0.001 * (power / protection)
+        return rate
+
     def calculate_lifetime(self):
         """
         Estimates solitonic lifetime (normalized).
         Materials with high field gradients and low stability have shorter lifetimes.
         """
         stability = self.calculate_stability()
-        # Lifetime depends on stability and energy density (higher density = faster decay)
-        lifetime = stability / (1.0 + 0.01 * self.energy_density)
-        return lifetime
+        Q = self.calculate_topological_charge()
+        deg_rate = self.calculate_degradation_rate()
+
+        # Topological protection bonus: non-zero charges are more stable
+        protection = 1.0 + 0.5 * min(abs(Q), 3)
+
+        # Lifetime depends on stability, density, protection and active degradation
+        lifetime = (stability * protection) / (1.0 + 0.01 * self.energy_density + deg_rate)
+        return min(lifetime, 2.0) # Capped
 
     def calculate_stability(self):
         """
@@ -53,6 +89,25 @@ class RelMaterial:
             score = np.exp(-(e_mag - CRITICAL_FIELD) / 200.0)
             logger.warning(f"Field exceeds Schwinger limit! e_mag={e_mag:.2f}, stability={score:.4f}")
             return score
+
+    def calculate_uncertainty(self):
+        """
+        Estimates the quantum uncertainty in the R-ZT metric.
+        Derived from Delta E * Delta t >= hbar/2 logic applied to solitonic fields.
+        """
+        # High energy density and high coupling increase field fluctuations
+        uncertainty = 0.05 * np.sqrt(self.energy_density * self.coupling_constant)
+        return uncertainty
+
+    def calculate_curvature_factor(self):
+        """
+        Models lattice strain/distortion as a space-time curvature metric R_curv.
+        R ~ EnergyDensity / (Stability^2).
+        Higher curvature generally scatters fields more but can enhance Seebeck.
+        """
+        stability = self.calculate_stability()
+        R_curv = 0.1 * self.energy_density / (stability + 0.1)
+        return R_curv
 
     def calculate_efficiency(self):
         """
@@ -92,7 +147,11 @@ class RelMaterial:
 
         # Topological stability bonus:
         v_norm = np.linalg.norm(self.vorticity)
-        stability_bonus = 1.0 + 0.5 * np.sin(v_norm * np.pi / 10.0)
+        Q = self.calculate_topological_charge()
+
+        # Stability peaks at integer charges (solitonic resonance)
+        resonance = np.exp(-0.5 * ((v_norm - 10.0*Q) / 2.0)**2)
+        stability_bonus = 1.0 + 1.5 * resonance
 
         # Relativistic Transport Coefficients from R-BTE
         coeffs = rel_boltzmann_transport(self.energy_density, v_norm, self.coupling_constant)
@@ -104,10 +163,19 @@ class RelMaterial:
         # Field Dissipation term
         dissipation = DISSIPATION_FACTOR * (self.energy_density**2 + v_norm**2) + alpha_corr + schwinger_dissipation
 
+        # Curvature modification to transport
+        R_curv = self.calculate_curvature_factor()
+        # Curvature enhances Seebeck (strain engineering analog) but increases kappa
+        seebeck_mod = coeffs['seebeck_rel'] * (1.0 + 0.2 * np.sqrt(R_curv))
+        kappa_mod = coeffs['kappa_rel'] * (1.0 + 0.1 * R_curv)
+
+        # Refined R-ZT: (S^2 * sigma * stability * lifetime) / (kappa + dissipation)
+        pf_refined = (seebeck_mod**2) * coeffs['sigma_rel']
+
         # Figure of Merit R-ZT
         # Integrating flux, BTE-derived transport, and Lifetime
         lifetime = self.calculate_lifetime()
-        efficiency = (pf_rel * flux * stability_bonus * self.meb_coupling * lifetime) / (coeffs['kappa_rel'] + abs(trace) + dissipation)
+        efficiency = (pf_refined * flux * stability_bonus * self.meb_coupling * lifetime) / (kappa_mod + abs(trace) + dissipation)
         return efficiency
 
 if __name__ == "__main__":

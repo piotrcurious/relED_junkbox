@@ -24,6 +24,13 @@ ELEMENTS = {
     "Ga": {"mass": 69.7, "en": 1.81, "type": "p-block", "valency": 3},
     "As": {"mass": 74.9, "en": 2.18, "type": "metalloid", "valency": 3},
     "S": {"mass": 32.1, "en": 2.58, "type": "chalcogen", "valency": 2},
+    "La": {"mass": 138.9, "en": 1.1, "type": "lanthanide", "valency": 3},
+    "Ce": {"mass": 140.1, "en": 1.12, "type": "lanthanide", "valency": 3},
+    "Yb": {"mass": 173.0, "en": 1.1, "type": "lanthanide", "valency": 2},
+    "W": {"mass": 183.8, "en": 2.36, "type": "refractory", "valency": 6},
+    "Ta": {"mass": 180.9, "en": 1.5, "type": "refractory", "valency": 5},
+    "Hf": {"mass": 178.5, "en": 1.3, "type": "refractory", "valency": 4},
+    "Pt": {"mass": 195.1, "en": 2.28, "type": "noble", "valency": 2},
 }
 
 class ChemicalTranslator:
@@ -51,6 +58,41 @@ class ChemicalTranslator:
             return 0.8
         return 0.5
 
+    def classify_material(self, el_names):
+        """
+        Classifies the material into broad chemical categories.
+        """
+        types = [ELEMENTS.get(el, {}).get('type', 'unknown') for el in el_names]
+        if 'lanthanide' in types:
+            return "Kondo-Lattice Soliton"
+        if 'refractory' in types:
+            return "High-Stability Refractory Field"
+        if 'chalcogen' in types and ('p-block' in types or 'transition' in types):
+            return "Relativistic Chalcogenide"
+        if 'metalloid' in types:
+            return "Metalloid-Based Soliton"
+        if 'transition' in types and 'p-block' in types:
+            return "Transition Metal Pnictide Analog"
+        return "Complex Field Configuration"
+
+    def suggest_synthesis(self, energy_density, bond_type):
+        """
+        Suggests synthesis conditions based on relativistic field parameters.
+        """
+        if energy_density > 100:
+            env = "High-Pressure Diamond Anvil Cell"
+        elif energy_density > 50:
+            env = "Vacuum Spark Plasma Sintering (SPS)"
+        else:
+            env = "Standard Solid-State Reaction"
+
+        if "Topological" in bond_type:
+            process = "Flux Growth (Monocrystal)"
+        else:
+            process = "Melt Ingot Polycrystalline"
+
+        return f"{env} using {process}"
+
     def translate(self, energy_density, vorticity, coupling):
         v_mag = np.linalg.norm(vorticity)
         current_p = [energy_density, v_mag, coupling]
@@ -73,14 +115,21 @@ class ChemicalTranslator:
 
         if best_match_dist < 0.1:
             predicted_substance = best_match_name
-            found_els = re.findall(r'([A-Z][a-z]*)', best_match_name)
+            formula_match = re.search(r'\((.*?)\)', best_match_name)
+            if formula_match:
+                found_els = re.findall(r'([A-Z][a-z]*)', formula_match.group(1))
+            else:
+                found_els = re.findall(r'([A-Z][a-z]*)', best_match_name)
+
             el1 = found_els[0] if len(found_els) > 0 else "Bi"
             el2 = found_els[1] if len(found_els) > 1 else "Te"
         else:
             candidates = []
-            if energy_density > 80:
-                candidates = ["Pb", "Bi", "Tl", "Hg", "Au"]
-            elif energy_density > 40:
+            if energy_density > 150:
+                candidates = ["W", "Pt", "Au", "Hf", "Ta"]
+            elif energy_density > 100:
+                candidates = ["Pb", "Bi", "Tl", "Yb", "La", "Ce"]
+            elif energy_density > 50:
                 candidates = ["Sb", "Te", "Se", "Ag", "Sn", "In"]
             else:
                 candidates = ["Si", "Ge", "Co", "Zn", "Ga", "As", "S"]
@@ -90,9 +139,16 @@ class ChemicalTranslator:
             v1 = ELEMENTS.get(el1, {}).get('valency', 1)
             v2 = ELEMENTS.get(el2, {}).get('valency', 1)
 
-            if v_mag > 40 and len(candidates) > 2:
+            # Quaternary Compound Logic for very high vorticity
+            if v_mag > 60 and len(candidates) > 3:
+                el3 = candidates[2]
+                el4 = candidates[3]
+                formula = f"{el1}{el2}{el3}{el4} (Quaternary Solitonic Alloy)"
+            # Ternary Compound Logic for high vorticity
+            elif v_mag > 40 and len(candidates) > 2:
                 el3 = candidates[2]
                 v3 = ELEMENTS.get(el3, {}).get('valency', 1)
+                # Heuristic Ternary: el1_1 el2_1 el3_(v1+v2-v3) simplified
                 formula = f"{el1}{el2}{el3}{abs(v1+v2-v3)+1} (Relativistic Ternary)"
             elif v_mag > 20:
                 formula = f"{el1}{v2}{el2}{v1} (Topological Phase)"
@@ -102,10 +158,14 @@ class ChemicalTranslator:
             predicted_substance = f"Theoretical {formula} [Ref: {best_match_name}]"
 
         chem_stability = self.calculate_chemical_stability([el1, el2])
+        category = self.classify_material([el1, el2])
+        synthesis = self.suggest_synthesis(energy_density, bond_type)
 
         return {
             "substance": predicted_substance,
+            "category": category,
             "bond_type": bond_type,
+            "synthesis_path": synthesis,
             "nearest_anchor": best_match_name,
             "confidence": float(max(0, 1.0 - best_match_dist)),
             "chemical_stability": chem_stability
